@@ -271,9 +271,10 @@ jobs:
       - uses: actions/download-artifact@v5
         with:
           path: artifacts
+      # attaches the installers to the release of this tag (creates it if it does not exist yet)
       - uses: softprops/action-gh-release@v2
         with:
-          draft: true
+          draft: false
           files: |
             artifacts/KLINGE-Linux/*
             artifacts/KLINGE-Windows/*
