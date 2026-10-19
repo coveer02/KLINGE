@@ -20,7 +20,7 @@ jobs:
   linux:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: System packages
         run: |
           sudo apt-get update
@@ -55,11 +55,11 @@ jobs:
           cp -r build/KLINGE_artefacts/Release/VST3/KLINGE.vst3 build/KLINGE_artefacts/Release/CLAP/KLINGE.clap dist/KLINGE/
           cp installer/linux/install.sh README.md THIRD_PARTY_NOTICES.md dist/KLINGE/
           tar -C dist -czf "KLINGE-${VERSION}-Linux-x64.tar.gz" KLINGE
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: KLINGE-Linux
           path: KLINGE-*-Linux-x64.tar.gz
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: KLINGE-Screenshots
           path: screenshots/*.png
@@ -71,12 +71,13 @@ jobs:
       WIN_CERT_PFX: ${{ secrets.WIN_CERT_PFX }}
       WIN_CERT_PASSWORD: ${{ secrets.WIN_CERT_PASSWORD }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Dependencies
         shell: bash
         run: bash tools/fetch-deps.sh
       - name: Configure
-        run: cmake -B build -G "Visual Studio 17 2022" -A x64 -DKLINGE_BUILD_TESTS=ON
+        # no fixed generator: CMake picks the newest Visual Studio on the runner image
+        run: cmake -B build -A x64 -DKLINGE_BUILD_TESTS=ON
       - name: Build VST3, CLAP and profiler
         run: cmake --build build --config Release --target KLINGE_VST3 KLINGE_CLAP KlingeProfiler --parallel
       - name: Code signing (only when a certificate is configured)
@@ -112,11 +113,11 @@ jobs:
           $version = (Select-String -Path CMakeLists.txt -Pattern 'project\(KLINGE VERSION ([0-9.]+)').Matches[0].Groups[1].Value
           & "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe" "/DAppVersion=$version" installer\windows\KLINGE.iss
           if ($LASTEXITCODE -ne 0) { exit 1 }
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: KLINGE-Windows
           path: installer/windows/Output/*.exe
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: KlingeProfiler-Windows
           path: build/KlingeProfiler_artefacts/Release/KlingeProfiler.exe
@@ -128,7 +129,7 @@ jobs:
       MACOS_CERT_P12: ${{ secrets.MACOS_CERT_P12 }}
       MACOS_CERT_PASSWORD: ${{ secrets.MACOS_CERT_PASSWORD }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Dependencies
         run: bash tools/fetch-deps.sh
       - name: Configure (universal binary)
@@ -180,11 +181,11 @@ jobs:
         run: |
           VERSION=$(sed -nE 's/^project\(KLINGE VERSION ([0-9.]+).*/\1/p' CMakeLists.txt)
           bash installer/macos/build-pkg.sh "$VERSION" build/KLINGE_artefacts/Release "KLINGE-${VERSION}-macOS.pkg"
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: KLINGE-macOS
           path: KLINGE-*-macOS.pkg
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: KlingeProfiler-macOS
           path: build/KlingeProfiler_artefacts/Release/KlingeProfiler
@@ -193,7 +194,7 @@ jobs:
   sanitizers:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: System packages
         run: |
           sudo apt-get update
@@ -232,7 +233,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v5
         with:
           path: artifacts
       - uses: softprops/action-gh-release@v2
