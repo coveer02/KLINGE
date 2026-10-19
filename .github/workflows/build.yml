@@ -1,0 +1,244 @@
+name: Build KLINGE
+
+on:
+  push:
+    branches: ["**"]
+    tags: ["v*"]
+  pull_request:
+  workflow_dispatch:
+
+env:
+  JUCE_TAG: "8.0.10"
+  NAM_TAG: "v0.6.0"
+  EIGEN_TAG: "3.4.0"
+  CLAP_JUCE_REF: "7adee3a1bd4684d4caa5601100e364abccff4b4d"
+  PLUGINVAL_VERSION: "v1.0.4"
+  CLAP_VALIDATOR_URL: "https://github.com/free-audio/clap-validator/releases/download/0.4.1/clap-validator-0.4.1-127-g152b982"
+
+jobs:
+  # -------------------------------------------------------------------------
+  linux:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: System packages
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libasound2-dev libfreetype-dev libfontconfig1-dev libx11-dev libxcomposite-dev \
+            libxcursor-dev libxext-dev libxinerama-dev libxrandr-dev libxrender-dev libglu1-mesa-dev xvfb ninja-build
+      - name: Dependencies
+        run: bash tools/fetch-deps.sh
+      - name: Build VST3, CLAP, tests and profiler
+        run: |
+          cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DKLINGE_BUILD_TESTS=ON
+          cmake --build build --target KLINGE_VST3 KLINGE_CLAP KlingeTests KlingeProfiler
+      - name: Audio, editor and golden tests
+        run: xvfb-run -a build/KlingeTests_artefacts/Release/KlingeTests
+      - name: Editor screenshots
+        run: |
+          mkdir -p screenshots
+          xvfb-run -a build/KlingeTests_artefacts/Release/KlingeTests ui screenshots
+      - name: pluginval (VST3, strictness 10)
+        run: |
+          curl -sSL -o pluginval.zip "https://github.com/Tracktion/pluginval/releases/download/${PLUGINVAL_VERSION}/pluginval_Linux.zip"
+          unzip -q pluginval.zip
+          xvfb-run -a ./pluginval --strictness-level 10 --validate-in-process build/KLINGE_artefacts/Release/VST3/KLINGE.vst3
+      - name: clap-validator (CLAP)
+        run: |
+          curl -sSL -o cv.zip "${CLAP_VALIDATOR_URL}-ubuntu-22.04.zip"
+          unzip -q cv.zip && tar xzf clap-validator-*.tar.gz
+          ./clap-validator validate --only-failed build/KLINGE_artefacts/Release/CLAP/KLINGE.clap
+      - name: Package
+        run: |
+          VERSION=$(grep -oP 'project\(KLINGE VERSION \K[0-9.]+' CMakeLists.txt)
+          mkdir -p dist/KLINGE
+          cp -r build/KLINGE_artefacts/Release/VST3/KLINGE.vst3 build/KLINGE_artefacts/Release/CLAP/KLINGE.clap dist/KLINGE/
+          cp installer/linux/install.sh README.md THIRD_PARTY_NOTICES.md dist/KLINGE/
+          tar -C dist -czf "KLINGE-${VERSION}-Linux-x64.tar.gz" KLINGE
+      - uses: actions/upload-artifact@v4
+        with:
+          name: KLINGE-Linux
+          path: KLINGE-*-Linux-x64.tar.gz
+      - uses: actions/upload-artifact@v4
+        with:
+          name: KLINGE-Screenshots
+          path: screenshots/*.png
+
+  # -------------------------------------------------------------------------
+  windows:
+    runs-on: windows-latest
+    env:
+      WIN_CERT_PFX: ${{ secrets.WIN_CERT_PFX }}
+      WIN_CERT_PASSWORD: ${{ secrets.WIN_CERT_PASSWORD }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Dependencies
+        shell: bash
+        run: bash tools/fetch-deps.sh
+      - name: Configure
+        run: cmake -B build -G "Visual Studio 17 2022" -A x64 -DKLINGE_BUILD_TESTS=ON
+      - name: Build VST3, CLAP and profiler
+        run: cmake --build build --config Release --target KLINGE_VST3 KLINGE_CLAP KlingeProfiler --parallel
+      - name: Code signing (only when a certificate is configured)
+        if: env.WIN_CERT_PFX != ''
+        shell: pwsh
+        run: |
+          [IO.File]::WriteAllBytes("cert.pfx", [Convert]::FromBase64String($env:WIN_CERT_PFX))
+          $signtool = Get-ChildItem "C:\Program Files (x86)\Windows Kits\10\bin\*\x64\signtool.exe" | Select-Object -Last 1
+          & $signtool sign /f cert.pfx /p $env:WIN_CERT_PASSWORD /fd sha256 /tr http://timestamp.digicert.com /td sha256 `
+            "build\KLINGE_artefacts\Release\VST3\KLINGE.vst3\Contents\x86_64-win\KLINGE.vst3" `
+            "build\KLINGE_artefacts\Release\CLAP\KLINGE.clap"
+          Remove-Item cert.pfx
+      - name: pluginval (VST3)
+        shell: pwsh
+        run: |
+          Invoke-WebRequest "https://github.com/Tracktion/pluginval/releases/download/$env:PLUGINVAL_VERSION/pluginval_Windows.zip" -OutFile pluginval.zip
+          Expand-Archive pluginval.zip -DestinationPath pluginval
+          .\pluginval\pluginval.exe --strictness-level 10 --validate-in-process "build\KLINGE_artefacts\Release\VST3\KLINGE.vst3"
+          if ($LASTEXITCODE -ne 0) { exit 1 }
+      - name: clap-validator (CLAP)
+        shell: pwsh
+        run: |
+          Invoke-WebRequest "$env:CLAP_VALIDATOR_URL-windows.zip" -OutFile cv.zip
+          Expand-Archive cv.zip -DestinationPath cv
+          $exe = Get-ChildItem cv -Recurse -Filter clap-validator.exe | Select-Object -First 1
+          if ($null -eq $exe) { Get-ChildItem cv -Recurse -Filter *.tar.gz | ForEach-Object { tar -xzf $_.FullName -C cv }; $exe = Get-ChildItem cv -Recurse -Filter clap-validator.exe | Select-Object -First 1 }
+          & $exe.FullName validate --only-failed "build\KLINGE_artefacts\Release\CLAP\KLINGE.clap"
+          if ($LASTEXITCODE -ne 0) { exit 1 }
+      - name: Installer (Inno Setup)
+        shell: pwsh
+        run: |
+          if (-not (Test-Path "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe")) { choco install innosetup -y --no-progress }
+          $version = (Select-String -Path CMakeLists.txt -Pattern 'project\(KLINGE VERSION ([0-9.]+)').Matches[0].Groups[1].Value
+          & "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe" "/DAppVersion=$version" installer\windows\KLINGE.iss
+          if ($LASTEXITCODE -ne 0) { exit 1 }
+      - uses: actions/upload-artifact@v4
+        with:
+          name: KLINGE-Windows
+          path: installer/windows/Output/*.exe
+      - uses: actions/upload-artifact@v4
+        with:
+          name: KlingeProfiler-Windows
+          path: build/KlingeProfiler_artefacts/Release/KlingeProfiler.exe
+
+  # -------------------------------------------------------------------------
+  macos:
+    runs-on: macos-latest
+    env:
+      MACOS_CERT_P12: ${{ secrets.MACOS_CERT_P12 }}
+      MACOS_CERT_PASSWORD: ${{ secrets.MACOS_CERT_PASSWORD }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Dependencies
+        run: bash tools/fetch-deps.sh
+      - name: Configure (universal binary)
+        run: cmake -B build -G Xcode -DCMAKE_OSX_ARCHITECTURES="arm64;x86_64" -DKLINGE_BUILD_TESTS=ON
+      - name: Build VST3, AU, CLAP and profiler
+        run: cmake --build build --config Release --target KLINGE_VST3 KLINGE_AU KLINGE_CLAP KlingeProfiler -- -quiet
+      - name: Import signing certificates (only when configured)
+        if: env.MACOS_CERT_P12 != ''
+        run: |
+          echo "$MACOS_CERT_P12" | base64 --decode > certs.p12
+          security create-keychain -p ci build.keychain
+          security default-keychain -s build.keychain
+          security unlock-keychain -p ci build.keychain
+          security import certs.p12 -k build.keychain -P "$MACOS_CERT_PASSWORD" -T /usr/bin/codesign -T /usr/bin/productsign
+          security set-key-partition-list -S apple-tool:,apple: -s -k ci build.keychain
+          rm certs.p12
+      - name: Sign plugins
+        env:
+          MACOS_SIGN_APP: ${{ secrets.MACOS_SIGN_APP }}
+        run: |
+          IDENTITY="${MACOS_SIGN_APP:--}"
+          for b in VST3/KLINGE.vst3 AU/KLINGE.component CLAP/KLINGE.clap; do
+            codesign --force --deep --timestamp --options runtime -s "$IDENTITY" "build/KLINGE_artefacts/Release/$b"
+          done
+      - name: pluginval (VST3)
+        run: |
+          curl -sSL -o pluginval.zip "https://github.com/Tracktion/pluginval/releases/download/${PLUGINVAL_VERSION}/pluginval_macOS.zip"
+          unzip -q pluginval.zip
+          pluginval.app/Contents/MacOS/pluginval --strictness-level 10 --validate-in-process build/KLINGE_artefacts/Release/VST3/KLINGE.vst3
+      - name: auval (AU)
+        run: |
+          mkdir -p ~/Library/Audio/Plug-Ins/Components
+          cp -R build/KLINGE_artefacts/Release/AU/KLINGE.component ~/Library/Audio/Plug-Ins/Components/
+          killall -9 AudioComponentRegistrar || true
+          auval -v aumf Kl01 Klng
+      - name: clap-validator (CLAP)
+        run: |
+          curl -sSL -o cv.zip "${CLAP_VALIDATOR_URL}-macos-universal.zip"
+          unzip -q cv.zip
+          for t in clap-validator-*.tar.gz; do [ -f "$t" ] && tar xzf "$t"; done
+          chmod +x clap-validator
+          ./clap-validator validate --only-failed build/KLINGE_artefacts/Release/CLAP/KLINGE.clap
+      - name: Installer package
+        env:
+          MACOS_SIGN_INSTALLER: ${{ secrets.MACOS_SIGN_INSTALLER }}
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          APPLE_APP_PASSWORD: ${{ secrets.APPLE_APP_PASSWORD }}
+        run: |
+          VERSION=$(sed -nE 's/^project\(KLINGE VERSION ([0-9.]+).*/\1/p' CMakeLists.txt)
+          bash installer/macos/build-pkg.sh "$VERSION" build/KLINGE_artefacts/Release "KLINGE-${VERSION}-macOS.pkg"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: KLINGE-macOS
+          path: KLINGE-*-macOS.pkg
+      - uses: actions/upload-artifact@v4
+        with:
+          name: KlingeProfiler-macOS
+          path: build/KlingeProfiler_artefacts/Release/KlingeProfiler
+
+  # -------------------------------------------------------------------------
+  sanitizers:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: System packages
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libasound2-dev libfreetype-dev libfontconfig1-dev libx11-dev libxcomposite-dev \
+            libxcursor-dev libxext-dev libxinerama-dev libxrandr-dev libxrender-dev libglu1-mesa-dev xvfb ninja-build
+      - name: Dependencies
+        run: bash tools/fetch-deps.sh
+      - name: Address + undefined behaviour sanitizers
+        env:
+          ASAN_OPTIONS: detect_leaks=1:halt_on_error=1
+          UBSAN_OPTIONS: print_stacktrace=1:halt_on_error=1
+        run: |
+          S="-fsanitize=address,undefined -fno-sanitize-recover=undefined -fno-omit-frame-pointer"
+          cmake -B asan -G Ninja -DCMAKE_BUILD_TYPE=RelWithDebInfo -DKLINGE_BUILD_TESTS=ON -DKLINGE_BUILD_CLAP=OFF \
+            -DCMAKE_CXX_FLAGS="$S" -DCMAKE_C_FLAGS="$S" -DCMAKE_EXE_LINKER_FLAGS="$S"
+          cmake --build asan --target KlingeTests
+          for t in algo align fuzz state presets circuits mod features session clicks precision bypass threads threads-ui ui-logic; do
+            xvfb-run -a asan/KlingeTests_artefacts/RelWithDebInfo/KlingeTests $t
+          done
+      - name: Thread sanitizer
+        env:
+          TSAN_OPTIONS: halt_on_error=1
+        run: |
+          cmake -B tsan -G Ninja -DCMAKE_BUILD_TYPE=RelWithDebInfo -DKLINGE_BUILD_TESTS=ON -DKLINGE_BUILD_CLAP=OFF \
+            -DCMAKE_CXX_FLAGS="-fsanitize=thread" -DCMAKE_C_FLAGS="-fsanitize=thread" -DCMAKE_EXE_LINKER_FLAGS="-fsanitize=thread"
+          cmake --build tsan --target KlingeTests
+          for t in threads threads-ui session features; do
+            xvfb-run -a tsan/KlingeTests_artefacts/RelWithDebInfo/KlingeTests $t
+          done
+
+  # -------------------------------------------------------------------------
+  release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: [linux, windows, macos, sanitizers]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+      - uses: softprops/action-gh-release@v2
+        with:
+          draft: true
+          files: |
+            artifacts/KLINGE-Linux/*
+            artifacts/KLINGE-Windows/*
+            artifacts/KLINGE-macOS/*

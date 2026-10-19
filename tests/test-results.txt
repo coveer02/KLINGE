@@ -1,0 +1,496 @@
+
+== ADAA antiderivatives match their curves ==
+  [PASS] Silk: F'(x) matches the curve (max error 0.000000)
+  [PASS] Tube: F'(x) matches the curve (max error 0.000000)
+  [PASS] Tape: F'(x) matches the curve (max error 0.000000)
+  [PASS] Grind: F'(x) matches the curve (max error 0.000000)
+  [PASS] Fuzz: F'(x) matches the curve (max error 0.000000)
+  [PASS] Fold: F'(x) matches the curve (max error 0.000001)
+  [PASS] Rectify: F'(x) matches the curve (max error 0.000000)
+
+== Algorithms: 100 Hz sine at -12 dBFS, drive 24 dB, auto gain on ==
+  type       out dB    THD %      H2      H3      H4      H5  inharm dB
+  Silk        -0.03    33.50  -125.5   -10.5  -145.7   -17.4      -89.7
+  [PASS] Silk: output finite
+  [PASS] Silk: auto gain keeps level within 3 dB (-0.03 dB)
+  [PASS] Silk: adds distortion (harmonic, or aliasing for Crush)
+  Tube        -0.02    27.02   -34.0   -12.0   -32.8   -21.1      -89.9
+  [PASS] Tube: output finite
+  [PASS] Tube: auto gain keeps level within 3 dB (-0.02 dB)
+  [PASS] Tube: adds distortion (harmonic, or aliasing for Crush)
+  Tape        -0.03    27.31  -126.1   -12.1  -146.2   -20.0      -89.8
+  [PASS] Tape: output finite
+  [PASS] Tape: auto gain keeps level within 3 dB (-0.03 dB)
+  [PASS] Tape: adds distortion (harmonic, or aliasing for Crush)
+  Detail      -0.03    37.39  -125.3    -9.9  -145.0   -15.8      -89.6
+  [PASS] Detail: output finite
+  [PASS] Detail: auto gain keeps level within 3 dB (-0.03 dB)
+  [PASS] Detail: adds distortion (harmonic, or aliasing for Crush)
+  Amp         -0.04    44.70   -56.0    -9.5   -55.5   -14.3      -89.3
+  [PASS] Amp: output finite
+  [PASS] Amp: auto gain keeps level within 3 dB (-0.04 dB)
+  [PASS] Amp: adds distortion (harmonic, or aliasing for Crush)
+  Grind       -0.03    34.76  -125.4   -10.3  -145.9   -17.0      -89.7
+  [PASS] Grind: output finite
+  [PASS] Grind: auto gain keeps level within 3 dB (-0.03 dB)
+  [PASS] Grind: adds distortion (harmonic, or aliasing for Crush)
+  Fuzz        -0.01    34.82   -31.9   -10.5   -35.2   -16.9      -89.7
+  [PASS] Fuzz: output finite
+  [PASS] Fuzz: auto gain keeps level within 3 dB (-0.01 dB)
+  [PASS] Fuzz: adds distortion (harmonic, or aliasing for Crush)
+  Fold        -0.04   182.88  -137.3   -14.2  -121.3     4.4      -82.9
+  [PASS] Fold: output finite
+  [PASS] Fold: auto gain keeps level within 3 dB (-0.04 dB)
+  [PASS] Fold: adds distortion (harmonic, or aliasing for Crush)
+  Rectify     -0.09    39.22   -16.0   -11.2   -17.3   -19.0      -89.5
+  [PASS] Rectify: output finite
+  [PASS] Rectify: auto gain keeps level within 3 dB (-0.09 dB)
+  [PASS] Rectify: adds distortion (harmonic, or aliasing for Crush)
+  Crush       -0.01     0.62   -53.2   -56.5   -58.0   -67.5      -22.5
+  [PASS] Crush: output finite
+  [PASS] Crush: auto gain keeps level within 3 dB (-0.01 dB)
+  [PASS] Crush: adds distortion (harmonic, or aliasing for Crush)
+  Slew        -0.03    30.24  -125.8   -11.2  -146.9   -19.0      -89.7
+  [PASS] Slew: output finite
+  [PASS] Slew: auto gain keeps level within 3 dB (-0.03 dB)
+  [PASS] Slew: adds distortion (harmonic, or aliasing for Crush)
+  Triode      -0.05    59.08    -5.4   -17.3   -18.7   -17.0      -88.0
+  [PASS] Triode: output finite
+  [PASS] Triode: auto gain keeps level within 3 dB (-0.05 dB)
+  [PASS] Triode: adds distortion (harmonic, or aliasing for Crush)
+  Diode       -0.02    24.26  -126.0   -12.9  -146.3   -21.9      -89.9
+  [PASS] Diode: output finite
+  [PASS] Diode: auto gain keeps level within 3 dB (-0.02 dB)
+  [PASS] Diode: adds distortion (harmonic, or aliasing for Crush)
+  Hysteresis    -0.03    29.19  -125.8   -11.7  -146.1   -19.0      -89.8
+  [PASS] Hysteresis: output finite
+  [PASS] Hysteresis: auto gain keeps level within 3 dB (-0.03 dB)
+  [PASS] Hysteresis: adds distortion (harmonic, or aliasing for Crush)
+  Iron        -0.04    69.91  -133.7    -4.9  -125.3    -9.2      -88.6
+  [PASS] Iron: output finite
+  [PASS] Iron: auto gain keeps level within 3 dB (-0.04 dB)
+  [PASS] Iron: adds distortion (harmonic, or aliasing for Crush)
+  Stack       -0.04    68.39    -4.1   -13.5   -24.1   -17.4      -87.3
+  [PASS] Stack: output finite
+  [PASS] Stack: auto gain keeps level within 3 dB (-0.04 dB)
+  [PASS] Stack: adds distortion (harmonic, or aliasing for Crush)
+
+== Aliasing: 5.5 kHz sine at -6 dBFS, Tube, drive 24 dB ==
+  oversampling Off   inharmonic (alias) energy re. fundamental:   -17.9 dB
+  oversampling 2x    inharmonic (alias) energy re. fundamental:   -46.8 dB
+  [PASS] more oversampling does not increase aliasing
+  oversampling 4x    inharmonic (alias) energy re. fundamental:   -81.1 dB
+  [PASS] more oversampling does not increase aliasing
+  oversampling 8x    inharmonic (alias) energy re. fundamental:   -84.8 dB
+  [PASS] more oversampling does not increase aliasing
+  oversampling 16x   inharmonic (alias) energy re. fundamental:   -84.7 dB
+  [PASS] more oversampling does not increase aliasing
+  [PASS] 16x removes at least 15 dB of aliasing compared with no oversampling
+
+== Aliasing: 5.5 kHz sine at -6 dBFS, Amp, drive 40 dB ==
+  oversampling Off   inharmonic (alias) energy re. fundamental:   -23.3 dB
+  oversampling 2x    inharmonic (alias) energy re. fundamental:   -28.0 dB
+  [PASS] more oversampling does not increase aliasing
+  oversampling 4x    inharmonic (alias) energy re. fundamental:   -34.6 dB
+  [PASS] more oversampling does not increase aliasing
+  oversampling 8x    inharmonic (alias) energy re. fundamental:   -40.5 dB
+  [PASS] more oversampling does not increase aliasing
+  oversampling 16x   inharmonic (alias) energy re. fundamental:   -47.1 dB
+  [PASS] more oversampling does not increase aliasing
+  [PASS] 16x removes at least 15 dB of aliasing compared with no oversampling
+
+== Parallel blending: clean bands, mix 50 %. Comb filtering would show as response deviation ==
+  Single     linear phase  OS Off  latency   0   max response deviation  0.00 dB   output vs input -300.0 dB
+  [PASS] Single / Off: parallel mix has no comb filtering
+  Single     linear phase  OS 2x   latency  49   max response deviation  0.00 dB   output vs input -30.9 dB
+  [PASS] Single / 2x: parallel mix has no comb filtering
+  Single     linear phase  OS 4x   latency  60   max response deviation  0.00 dB   output vs input -30.9 dB
+  [PASS] Single / 4x: parallel mix has no comb filtering
+  Single     linear phase  OS 8x   latency  65   max response deviation  0.01 dB   output vs input -30.9 dB
+  [PASS] Single / 8x: parallel mix has no comb filtering
+  Single     linear phase  OS 16x  latency  67   max response deviation  0.04 dB   output vs input -30.8 dB
+  [PASS] Single / 16x: parallel mix has no comb filtering
+  Single     low latency   OS Off  latency   0   max response deviation  0.00 dB   output vs input -300.0 dB
+  [PASS] Single / Off low latency: deviation stays moderate
+  Single     low latency   OS 2x   latency   4   max response deviation  0.00 dB   output vs input -7.7 dB
+  [PASS] Single / 2x low latency: deviation stays moderate
+  Single     low latency   OS 4x   latency   5   max response deviation  0.00 dB   output vs input -8.6 dB
+  [PASS] Single / 4x low latency: deviation stays moderate
+  Single     low latency   OS 8x   latency   5   max response deviation  0.00 dB   output vs input -8.5 dB
+  [PASS] Single / 8x low latency: deviation stays moderate
+  Single     low latency   OS 16x  latency   6   max response deviation  0.00 dB   output vs input -8.1 dB
+  [PASS] Single / 16x low latency: deviation stays moderate
+  Multiband  linear phase  OS Off  latency   0   max response deviation  0.14 dB   (allpass crossover)
+  [PASS] Multiband / Off: parallel mix has no comb filtering
+  Multiband  linear phase  OS 2x   latency  49   max response deviation  0.14 dB   (allpass crossover)
+  [PASS] Multiband / 2x: parallel mix has no comb filtering
+  Multiband  linear phase  OS 4x   latency  60   max response deviation  0.14 dB   (allpass crossover)
+  [PASS] Multiband / 4x: parallel mix has no comb filtering
+  Multiband  linear phase  OS 8x   latency  65   max response deviation  0.14 dB   (allpass crossover)
+  [PASS] Multiband / 8x: parallel mix has no comb filtering
+  Multiband  linear phase  OS 16x  latency  67   max response deviation  0.11 dB   (allpass crossover)
+  [PASS] Multiband / 16x: parallel mix has no comb filtering
+  Multiband  low latency   OS Off  latency   0   max response deviation  0.14 dB   (allpass crossover)
+  [PASS] Multiband / Off low latency: deviation stays moderate
+  Multiband  low latency   OS 2x   latency   4   max response deviation  0.15 dB   (allpass crossover)
+  [PASS] Multiband / 2x low latency: deviation stays moderate
+  Multiband  low latency   OS 4x   latency   5   max response deviation  0.14 dB   (allpass crossover)
+  [PASS] Multiband / 4x low latency: deviation stays moderate
+  Multiband  low latency   OS 8x   latency   5   max response deviation  0.14 dB   (allpass crossover)
+  [PASS] Multiband / 8x low latency: deviation stays moderate
+  Multiband  low latency   OS 16x  latency   6   max response deviation  0.14 dB   (allpass crossover)
+  [PASS] Multiband / 16x low latency: deviation stays moderate
+  Mid / Side linear phase  OS Off  latency   0   max response deviation  0.00 dB   output vs input -150.5 dB
+  [PASS] Mid / Side / Off: parallel mix has no comb filtering
+  Mid / Side linear phase  OS 2x   latency  49   max response deviation  0.00 dB   output vs input -30.9 dB
+  [PASS] Mid / Side / 2x: parallel mix has no comb filtering
+  Mid / Side linear phase  OS 4x   latency  60   max response deviation  0.00 dB   output vs input -30.9 dB
+  [PASS] Mid / Side / 4x: parallel mix has no comb filtering
+  Mid / Side linear phase  OS 8x   latency  65   max response deviation  0.01 dB   output vs input -30.9 dB
+  [PASS] Mid / Side / 8x: parallel mix has no comb filtering
+  Mid / Side linear phase  OS 16x  latency  67   max response deviation  0.04 dB   output vs input -30.8 dB
+  [PASS] Mid / Side / 16x: parallel mix has no comb filtering
+  Mid / Side low latency   OS Off  latency   0   max response deviation  0.00 dB   output vs input -150.5 dB
+  [PASS] Mid / Side / Off low latency: deviation stays moderate
+  Mid / Side low latency   OS 2x   latency   4   max response deviation  0.00 dB   output vs input -7.7 dB
+  [PASS] Mid / Side / 2x low latency: deviation stays moderate
+  Mid / Side low latency   OS 4x   latency   5   max response deviation  0.00 dB   output vs input -8.6 dB
+  [PASS] Mid / Side / 4x low latency: deviation stays moderate
+  Mid / Side low latency   OS 8x   latency   5   max response deviation  0.00 dB   output vs input -8.5 dB
+  [PASS] Mid / Side / 8x low latency: deviation stays moderate
+  Mid / Side low latency   OS 16x  latency   6   max response deviation  0.00 dB   output vs input -8.1 dB
+  [PASS] Mid / Side / 16x low latency: deviation stays moderate
+
+== Punch: drum loop through Amp at 36 dB drive ==
+  punch     0 %   envelope correlation with dry 0.856   envelope spread 4.4 dB (dry 17.0 dB)
+  [PASS] output finite
+  punch   100 %   envelope correlation with dry 0.972   envelope spread 12.5 dB (dry 17.0 dB)
+  [PASS] output finite
+  punch   150 %   envelope correlation with dry 0.975   envelope spread 15.7 dB (dry 17.0 dB)
+  [PASS] output finite
+  [PASS] Punch 100 % brings the distorted envelope closer to the dry one
+  [PASS] Punch 100 % restores dynamic range (micro-dynamics)
+  [PASS] Punch 150 % exaggerates beyond the dry dynamics
+
+== Faithful (tone lock): pink noise through Fuzz at 36 dB ==
+  faithful   0 %   low/mid balance shift   -1.6 dB   high/mid shift   +1.7 dB
+  faithful 100 %   low/mid balance shift   +0.8 dB   high/mid shift   -0.0 dB
+  [PASS] Faithful 100 % at least halves the tonal balance shift
+
+== Auto gain across drive (Tube, pink noise -18 dB RMS) ==
+  drive    0 dB   output -0.06 dB re. input
+  drive   12 dB   output -0.08 dB re. input
+  drive   24 dB   output -0.11 dB re. input
+  drive   36 dB   output -0.12 dB re. input
+  drive   48 dB   output -0.12 dB re. input
+  [PASS] loudness stays within 1.5 dB of the input at every drive
+
+== Harmonic designer: Silk at 0 dB drive, h2 = 50 % ==
+  lock 100 %  input  -6.0 dBFS   2nd harmonic   -4.9 dB re. fundamental
+  lock 100 %  input -30.0 dBFS   2nd harmonic   -5.4 dB re. fundamental
+  [PASS] locked: 2nd harmonic sits near -6 dB at any level
+  lock   0 %  input  -6.0 dBFS   2nd harmonic  -13.4 dB re. fundamental
+  lock   0 %  input -30.0 dBFS   2nd harmonic  -38.0 dB re. fundamental
+  [PASS] analog: harmonics fall away at low level
+
+== Harmonic designer: negative h3 cancels the 3rd harmonic of a clipper ==
+  h3    +0 %   3rd harmonic  -20.3 dB
+  h3    -6 %   3rd harmonic  -33.3 dB
+  [PASS] pulling a harmonic below zero subtracts it
+
+== Detail clipper: 60 Hz at 0 dBFS + quiet 3 kHz tone at -30 dBFS, drive 18 ==
+  detail   0 %   quiet tone relative to the loud one:  -81.2 dB (0 = fully kept)
+  detail 100 %   quiet tone relative to the loud one:  -60.9 dB (0 = fully kept)
+  [PASS] Detail keeps the quiet tone that plain clipping masks
+
+== Random parameters and block sizes ==
+  150 random settings, block sizes 1..1500, max output -1.3 dBFS
+  [PASS] no NaN or infinity under random settings
+  [PASS] output stays bounded (< +18 dBFS at unity in/out gain) under random settings
+  [PASS] silence in gives silence out, even with full bias
+
+== State save / restore ==
+  [PASS] all 145 parameters survive a save/restore round trip
+
+== Parameter text round trip ==
+  58145 conversions, 0 inconsistent
+  [PASS] text of every parameter converts back to the same value
+
+== Factory presets on a drum loop ==
+  Init                   out   -0.2 dB re. input   peak  -8.0 dBFS
+  [PASS] Init: finite, peak under +12 dBFS
+  Schranz Perc Crunch    out   +0.1 dB re. input   peak  +0.1 dBFS
+  [PASS] Schranz Perc Crunch: finite, peak under +12 dBFS
+  Woosh Restore          out   -3.3 dB re. input   peak  -3.0 dBFS
+  [PASS] Woosh Restore: finite, peak under +12 dBFS
+  Woosh Shaper           out   -1.7 dB re. input   peak  +2.1 dBFS
+  [PASS] Woosh Shaper: finite, peak under +12 dBFS
+  Schranz Stack          out   -0.7 dB re. input   peak  +3.5 dBFS
+  [PASS] Schranz Stack: finite, peak under +12 dBFS
+  Kick Drive Low Only    out   -0.1 dB re. input   peak  -4.0 dBFS
+  [PASS] Kick Drive Low Only: finite, peak under +12 dBFS
+  Kick Duck Sidechain    out   -0.7 dB re. input   peak  -4.7 dBFS
+  [PASS] Kick Duck Sidechain: finite, peak under +12 dBFS
+  Rumble Grind           out   -0.0 dB re. input   peak  -2.7 dBFS
+  [PASS] Rumble Grind: finite, peak under +12 dBFS
+  Hats Grit Side         out   -0.1 dB re. input   peak  -4.3 dBFS
+  [PASS] Hats Grit Side: finite, peak under +12 dBFS
+  Gated Stutter          out   -1.5 dB re. input   peak  -9.8 dBFS
+  [PASS] Gated Stutter: finite, peak under +12 dBFS
+  Fuzz Sputter           out   -0.7 dB re. input   peak -11.0 dBFS
+  [PASS] Fuzz Sputter: finite, peak under +12 dBFS
+  Warm Bus Glue          out   -0.1 dB re. input   peak  -6.4 dBFS
+  [PASS] Warm Bus Glue: finite, peak under +12 dBFS
+  Analog Warmth          out   -0.2 dB re. input   peak  -7.2 dBFS
+  [PASS] Analog Warmth: finite, peak under +12 dBFS
+  Tape Kiss              out   -0.2 dB re. input   peak  -8.1 dBFS
+  [PASS] Tape Kiss: finite, peak under +12 dBFS
+  Tape Hysteresis Glue   out   -0.1 dB re. input   peak  -8.7 dBFS
+  [PASS] Tape Hysteresis Glue: finite, peak under +12 dBFS
+  Iron Bass Weight       out   -0.4 dB re. input   peak  -4.5 dBFS
+  [PASS] Iron Bass Weight: finite, peak under +12 dBFS
+  Tube Bloom             out   -0.3 dB re. input   peak -10.1 dBFS
+  [PASS] Tube Bloom: finite, peak under +12 dBFS
+  Triode Bloom Drums     out   -0.5 dB re. input   peak  -5.1 dBFS
+  [PASS] Triode Bloom Drums: finite, peak under +12 dBFS
+  Detail Clipper Loud    out   -2.5 dB re. input   peak -10.6 dBFS
+  [PASS] Detail Clipper Loud: finite, peak under +12 dBFS
+  Vocal Presence         out   -0.0 dB re. input   peak  -3.7 dBFS
+  [PASS] Vocal Presence: finite, peak under +12 dBFS
+  Five Band Master       out   -0.3 dB re. input   peak  -2.6 dBFS
+  [PASS] Five Band Master: finite, peak under +12 dBFS
+  Mid Grit Side Air      out   -0.1 dB re. input   peak  -2.7 dBFS
+  [PASS] Mid Grit Side Air: finite, peak under +12 dBFS
+  Harmonic Gold          out   -0.0 dB re. input   peak  -5.1 dBFS
+  [PASS] Harmonic Gold: finite, peak under +12 dBFS
+  Odd Steel              out   -0.0 dB re. input   peak  -6.3 dBFS
+  [PASS] Odd Steel: finite, peak under +12 dBFS
+  Analog Even            out   -0.3 dB re. input   peak  -0.7 dBFS
+  [PASS] Analog Even: finite, peak under +12 dBFS
+  Diode Pedal Grit       out   -0.3 dB re. input   peak -11.7 dBFS
+  [PASS] Diode Pedal Grit: finite, peak under +12 dBFS
+  LFO Fold Wobble        out   -0.4 dB re. input   peak  -7.5 dBFS
+  [PASS] LFO Fold Wobble: finite, peak under +12 dBFS
+  Metal Feedback         out   -1.5 dB re. input   peak -10.0 dBFS
+  [PASS] Metal Feedback: finite, peak under +12 dBFS
+  Velocity Drive         out   -0.7 dB re. input   peak -11.0 dBFS
+  [PASS] Velocity Drive: finite, peak under +12 dBFS
+  Fold Bass Growl        out   -0.4 dB re. input   peak  -4.2 dBFS
+  [PASS] Fold Bass Growl: finite, peak under +12 dBFS
+  Lo-Fi Crush            out   -0.3 dB re. input   peak  -4.7 dBFS
+  [PASS] Lo-Fi Crush: finite, peak under +12 dBFS
+  Octave Rectify         out   -2.9 dB re. input   peak  -4.6 dBFS
+  [PASS] Octave Rectify: finite, peak under +12 dBFS
+  Slew Smear             out   -0.2 dB re. input   peak -10.4 dBFS
+  [PASS] Slew Smear: finite, peak under +12 dBFS
+
+== Sample rates ==
+  [PASS] runs at 44.1 kHz
+  [PASS] runs at 96.0 kHz
+  [PASS] runs at 192.0 kHz
+
+== Circuit models ==
+  [PASS] Triode at 0 dB drive keeps its level without auto gain (-0.00 dB)
+  [PASS] Triode at 24 dB drive keeps its level without auto gain (-0.00 dB)
+  [PASS] Triode at 48 dB drive keeps its level without auto gain (-0.00 dB)
+  [PASS] Diode at 0 dB drive keeps its level without auto gain (-0.00 dB)
+  [PASS] Diode at 24 dB drive keeps its level without auto gain (-0.00 dB)
+  [PASS] Diode at 48 dB drive keeps its level without auto gain (-0.00 dB)
+  [PASS] Hysteresis at 0 dB drive keeps its level without auto gain (-0.00 dB)
+  [PASS] Hysteresis at 24 dB drive keeps its level without auto gain (-0.00 dB)
+  [PASS] Hysteresis at 48 dB drive keeps its level without auto gain (-0.00 dB)
+  [PASS] Iron at 0 dB drive keeps its level without auto gain (-0.00 dB)
+  [PASS] Iron at 24 dB drive keeps its level without auto gain (-0.00 dB)
+  [PASS] Iron at 48 dB drive keeps its level without auto gain (-0.00 dB)
+  [PASS] Stack at 0 dB drive keeps its level without auto gain (-0.00 dB)
+  [PASS] Stack at 24 dB drive keeps its level without auto gain (-0.00 dB)
+  [PASS] Stack at 48 dB drive keeps its level without auto gain (0.00 dB)
+  [PASS] Triode: +12 dBFS noise with DC stays bounded, then decays to silence (tail -100.0 dBFS)
+  [PASS] Diode: +12 dBFS noise with DC stays bounded, then decays to silence (tail -100.0 dBFS)
+  [PASS] Hysteresis: +12 dBFS noise with DC stays bounded, then decays to silence (tail -100.0 dBFS)
+  [PASS] Iron: +12 dBFS noise with DC stays bounded, then decays to silence (tail -100.0 dBFS)
+  [PASS] Stack: +12 dBFS noise with DC stays bounded, then decays to silence (tail -100.0 dBFS)
+  Iron THD at 60 Hz 36.78 %, at 2 kHz 0.965 %
+  [PASS] Iron: low frequencies distort far more than highs
+  Hysteresis at zero input: rising -0.0312, falling 0.0309
+  [PASS] Hysteresis: the loop has memory (output differs by direction)
+  Triode 2nd harmonic of a quiet tone: before -21.3 dB, right after a loud hit -11.5 dB, 1.5 s later -21.3 dB
+  [PASS] Triode: loud hits move the operating point, which then recovers
+  Diode (dark) THD at 100 Hz 23.21 %, at 6 kHz 0.00 %
+  [PASS] Diode: clipping depends on frequency (capacitor)
+
+== Modulation ==
+  LFO 2 Hz on output gain: zipper sidebands -92.8 dB, intended sidebands -2.3 dB re. tone
+  [PASS] modulation has no zipper noise at the control rate
+  [PASS] LFO actually moves the level
+  shaper gate 1/4: open -15.1 dB, closed -200.0 dB
+  [PASS] shaper follows the host tempo and position, compensated for latency
+  sidechain ducking: during kick -41.0 dB, between kicks -17.7 dB
+  [PASS] envelope follower reads the sidechain input
+  velocity 127 on output gain: before -23.0 dB, after -11.0 dB
+  [PASS] MIDI velocity modulates
+  [PASS] modulation slots and shaper curve survive save / restore
+
+== Bands, stereo, feedback, render quality ==
+  5 bands with clean bands vs dry path: -143.9 dB
+  [PASS] 5-band split sums to exactly the dry path (no combing when blending)
+  band mode Mid with only side input, heavy Amp: output vs clean path -144.4 dB
+  [PASS] Mid mode leaves the other half of the stereo image untouched
+  band mode Side with only mid input, heavy Amp: output vs clean path -144.4 dB
+  [PASS] Side mode leaves the other half of the stereo image untouched
+  feedback 95 %: peak -0.4 dBFS, tail after 2 s of silence -200.0 dBFS
+  [PASS] feedback stays bounded and stops when the input stops
+  render quality 16x: reported latency 67 / 67, live null -85.6 dB, offline null -46.7 dB
+  [PASS] live and offline render share one latency, both aligned
+  [PASS] a v1.0 session loads with its values; new parameters take their defaults
+
+== Undo, snapshots, random, capture ==
+  drive 35.0 -> undo 20.0 -> redo 35.0
+  [PASS] undo and redo restore user edits
+  [PASS] host automation is not an undo step
+  snapshot A drive 12.0, snapshot B drive 44.0
+  [PASS] A/B snapshots hold parameters and modulation
+  [PASS] locked parameters keep their value when a preset loads
+  [PASS] randomise gives valid audio and respects locks
+  capture: status "Loaded.", difference on/off -25.1 dB
+  [PASS] a .nam capture loads and processes audio
+  [PASS] a broken capture file is reported and does not interrupt audio
+
+== Click freedom: switch a setting mid-stream, compare the transition with steady state ==
+  signal value at the switch point: +0.108
+  control: hard -6 dB step   transition / steady curvature 10.87
+  [PASS] the click metric detects a hard step
+  band on -> off             transition / steady curvature  0.99
+  [PASS] band on -> off: no click
+  band mute                  transition / steady curvature  0.97
+  [PASS] band mute: no click
+  delta on                   transition / steady curvature  0.96
+  [PASS] delta on: no click
+  type Silk -> Fuzz          transition / steady curvature  1.00
+  [PASS] type Silk -> Fuzz: no click
+  routing -> Multiband       transition / steady curvature  1.03
+  [PASS] routing -> Multiband: no click
+  routing -> Mid/Side        transition / steady curvature  1.00
+  [PASS] routing -> Mid/Side: no click
+  oversampling 2x -> 8x      transition / steady curvature  1.00
+  [PASS] oversampling 2x -> 8x: no click
+  OS filter -> low latency   transition / steady curvature  1.00
+  [PASS] OS filter -> low latency: no click
+  host bypass on             transition / steady curvature  0.87
+  [PASS] host bypass on: no click
+  post high cut 20k -> 2k    transition / steady curvature  1.00
+  [PASS] post high cut 20k -> 2k: no click
+  pre low cut off -> 400     transition / steady curvature  0.75
+  [PASS] pre low cut off -> 400: no click
+  focus 0 -> +12 dB          transition / steady curvature  1.16
+  [PASS] focus 0 -> +12 dB: no click
+  bias 0 -> +80 %            transition / steady curvature  1.00
+  [PASS] bias 0 -> +80 %: no click
+  shape 0 -> 100 %           transition / steady curvature  1.01
+  [PASS] shape 0 -> 100 %: no click
+  crossover 200 -> 1.2k      transition / steady curvature  0.99
+  [PASS] crossover 200 -> 1.2k: no click
+  output clip on (+6 dB)     transition / steady curvature  1.00
+  [PASS] output clip on (+6 dB): no click
+  drive 12 -> 40 dB          transition / steady curvature  1.02
+  [PASS] drive 12 -> 40 dB: no click
+  input gain +12 dB          transition / steady curvature  0.77
+  [PASS] input gain +12 dB: no click
+  output gain -12 dB         transition / steady curvature  0.96
+  [PASS] output gain -12 dB: no click
+  mix 100 -> 0 %             transition / steady curvature  0.98
+  [PASS] mix 100 -> 0 %: no click
+  band mix 100 -> 0 %        transition / steady curvature  0.98
+  [PASS] band mix 100 -> 0 %: no click
+  band level -12 dB          transition / steady curvature  0.98
+  [PASS] band level -12 dB: no click
+  harmonic 2 0 -> +100 %     transition / steady curvature  1.10
+  [PASS] harmonic 2 0 -> +100 %: no click
+  harmonic 3 -> -100 %       transition / steady curvature  0.86
+  [PASS] harmonic 3 -> -100 %: no click
+  harmonic lock 100 -> 0     transition / steady curvature  0.78
+  [PASS] harmonic lock 100 -> 0: no click
+  punch 0 -> 150 %           transition / steady curvature  1.08
+  [PASS] punch 0 -> 150 %: no click
+  faithful 0 -> 100 %        transition / steady curvature  1.00
+  [PASS] faithful 0 -> 100 %: no click
+  dynamics 0 -> +100 %       transition / steady curvature  1.12
+  [PASS] dynamics 0 -> +100 %: no click
+  dynamics 0 -> -100 %       transition / steady curvature  0.98
+  [PASS] dynamics 0 -> -100 %: no click
+  auto gain off              transition / steady curvature  1.00
+  [PASS] auto gain off: no click
+  routing Multi -> Single    transition / steady curvature  0.98
+  [PASS] routing Multi -> Single: no click
+  solo band 2 (multiband)    transition / steady curvature  0.90
+  [PASS] solo band 2 (multiband): no click
+  type Amp -> Crush          transition / steady curvature  0.98
+  [PASS] type Amp -> Crush: no click
+  type Tube -> Fold          transition / steady curvature  1.00
+  [PASS] type Tube -> Fold: no click
+  punch speed 5 -> 200 ms    transition / steady curvature  1.01
+  [PASS] punch speed 5 -> 200 ms: no click
+  preset load                transition / steady curvature  1.24
+  [PASS] preset load: no click
+
+== Precision at 192 kHz with 16x oversampling (3 MHz internal rate) ==
+  multiband, crossover at 40 Hz, parallel response deviation 0.140 dB
+  [PASS] crossover and allpass compensation stay exact at a 3 MHz internal rate
+  steady tone: dynamics 0 % -15.07 dB, dynamics 100 % -14.80 dB
+  [PASS] envelope followers settle correctly at a 3 MHz internal rate
+
+== Host bypass keeps the reported latency ==
+  linear phase  latency 60, bypassed output vs input delayed by latency: -74.8 dB
+  [PASS] bypass passes the input unchanged, delayed by exactly the reported latency
+  low latency   latency 5, bypassed output vs input delayed by latency: -39.6 dB
+  [PASS] low-latency bypass is time-aligned (phase follows the IIR filters)
+
+== Concurrency: processing while another thread saves, loads and automates ==
+  3000 audio blocks processed while 7354 state / preset / parameter operations ran
+  [PASS] audio stays valid while state is changed concurrently
+
+== Concurrency with the editor open ==
+  3994 audio blocks while the editor refreshed and settings changed
+  [PASS] editor and audio thread run side by side without problems
+
+== Editor logic ==
+  [PASS] dropping LFO 1 on Drive creates a modulation; foreign drags are ignored
+  [PASS] band knobs are reachable in the editor
+  focus after undo 6.0 dB, after redo -4.0 dB
+  [PASS] Ctrl/Cmd+Z undoes, Shift+Ctrl/Cmd+Z redoes
+  [PASS] snapshot button B switches to snapshot B
+  [PASS] algorithm box selects Hysteresis in band 1
+  [PASS] algorithm box follows the parameter
+  [PASS] selecting band 5 with three bands active selects the last active band
+  [PASS] selected band falls back to the main band when routing changes to Single
+  [PASS] all five tabs open
+  [PASS] analyser runs while the Analyse tab is visible
+  [PASS] analyser stops when its tab is hidden
+  preset after searching "transformer": Iron Bass Weight
+  [PASS] browser search by tag finds and loads the preset
+  [PASS] editor follows the stored Basic/Advanced setting
+  [PASS] closing the editor stops the analyser
+
+== Golden fingerprints of all factory presets ==
+  [PASS] tests/data/golden.txt exists (KlingeTests gen-golden writes it)
+  33 presets compared. Largest level difference 0.000 dB, largest band difference 0.000 dB (Octave Rectify)
+  [PASS] every factory preset sounds as recorded
+
+== Capture: WaveNet profiles ==
+  wavenet.nam                mono     4.4% of one core at 48 kHz (Loaded.)
+  [PASS] wavenet.nam (mono) loads and processes audio
+  wavenet.nam                stereo   5.0% of one core at 48 kHz (Loaded.)
+  [PASS] wavenet.nam (true stereo) loads and processes audio
+  wavenet_a1_standard.nam    mono    39.1% of one core at 48 kHz (Loaded.)
+  [PASS] wavenet_a1_standard.nam (mono) loads and processes audio
+  wavenet_a1_standard.nam    stereo  77.6% of one core at 48 kHz (Loaded.)
+  [PASS] wavenet_a1_standard.nam (true stereo) loads and processes audio
+
+== CPU (real-time factor, stereo 48 kHz, 512 blocks) ==
+  Single Tube 2x                4.5% of one core
+  Single Amp 4x                 8.9% of one core
+  Multiband 4x                 17.6% of one core
+  Multiband 8x + harmonics     43.1% of one core
+  Multiband 16x                68.8% of one core
+
+ALL PASSED: 0 failure(s)

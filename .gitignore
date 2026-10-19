@@ -1,0 +1,10 @@
+build*/
+JUCE/
+deps/
+shots*/
+dist/
+screenshots/
+installer/windows/Output/
+*.zip
+*.pkg
+*.tar.gz
