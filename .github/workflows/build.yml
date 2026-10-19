@@ -206,7 +206,14 @@ jobs:
           APPLE_APP_PASSWORD: ${{ secrets.APPLE_APP_PASSWORD }}
         run: |
           VERSION=$(sed -nE 's/^project\(KLINGE VERSION ([0-9.]+).*/\1/p' CMakeLists.txt)
-          bash installer/macos/build-pkg.sh "$VERSION" build/KLINGE_artefacts/Release "KLINGE-${VERSION}-macOS.pkg"
+          set +e
+          bash installer/macos/build-pkg.sh "$VERSION" build/KLINGE_artefacts/Release "KLINGE-${VERSION}-macOS.pkg" > pkg.log 2>&1
+          rc=$?
+          cat pkg.log
+          if [ $rc -ne 0 ]; then
+            echo "::error title=build-pkg::$(tail -30 pkg.log | perl -pe 's/%/%25/g' | awk '{printf "%s%%0A", $0}')"
+          fi
+          exit $rc
       - uses: actions/upload-artifact@v5
         if: success() || failure()
         with:

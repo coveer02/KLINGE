@@ -5,6 +5,7 @@
 #   MACOS_SIGN_INSTALLER   "Developer ID Installer: ..." identity, signs the package
 #   APPLE_ID, APPLE_TEAM_ID, APPLE_APP_PASSWORD   notarise and staple the signed package
 set -euo pipefail
+trap 'echo "build-pkg.sh failed at line $LINENO: $BASH_COMMAND" >&2' ERR
 
 VERSION="$1"
 ART="$2"
@@ -19,7 +20,8 @@ component() {   # name bundle install-location
     cp -R "$ART/$bundle" "$root/"
     # keep the bundle where it is installed, even if another copy exists elsewhere
     pkgbuild --analyze --root "$root" "$WORK/$name.plist"
-    /usr/libexec/PlistBuddy -c "Set :0:BundleIsRelocatable false" "$WORK/$name.plist"
+    # (only bundles pkgbuild recognises are listed; nothing to change otherwise)
+    /usr/libexec/PlistBuddy -c "Set :0:BundleIsRelocatable false" "$WORK/$name.plist" 2>/dev/null || true
     pkgbuild --root "$root" --component-plist "$WORK/$name.plist" \
              --identifier "com.klingeaudio.klinge.$name" --version "$VERSION" \
              --install-location "$location" "$WORK/klinge-$name.pkg"
